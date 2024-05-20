@@ -94,7 +94,6 @@ function detectAndCreateLink(element) {
 }
 function detectAndCreatePing(element) {
     const text = element.textContent;
-    console.log("text: ", text)
     let filter = `@${username}`
     // Check if the text contains a URL
     if (text.includes(filter)) {
