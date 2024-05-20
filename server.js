@@ -6,14 +6,7 @@ var currentUsers = [];
 var resourceToFunction = {};
 var ifaces = os.networkInterfaces();
 
-for (var a in ifaces) {
-    for (var b in ifaces[a]) {
-        var addr = ifaces[a][b];
-        if (addr.family === 'IPv4' && !addr.internal) {
-            console.log("Network IP: " + addr.address);
-        }
-    }
-}
+
 
 var server = http.createServer(function (req, resp) {
     if (req.url == "/") {
@@ -40,5 +33,25 @@ io.sockets.on("connection", function (socket) {
         io.emit('newMessage', msg);
     });
 });
-server.listen(8080);
+var port = 8080
+var ip
+let first = false
+for (var a in ifaces) {
+    
+    for (var b in ifaces[a]) {
+        var addr = ifaces[a][b];
+        if (addr.family === 'IPv4' && !addr.internal) {
+            if (!first){
+                ip = addr.address
+                first = false
+                console.log(ip)
+                console.log(addr.address)
+            }
+
+            console.log("Network IP: " + addr.address);
+        }
+    }
+}
+server.listen(port);
+console.log(`server listening on http://${ip}:${port}`)
 io.listen(server);

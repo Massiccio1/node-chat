@@ -80,6 +80,32 @@ function addcolor(username) {
     // console.log(name_color_dict)
 }
 
+function detectAndCreateLink(element) {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const text = element.textContent;
+    // Check if the text contains a URL
+    if (urlRegex.test(text)) {
+        const newText = text.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
+        element.innerHTML = newText;
+        return element;
+    } else {
+        return element; // No URL found
+    }
+}
+function detectAndCreatePing(element) {
+    const text = element.textContent;
+    console.log("text: ", text)
+    let filter = `@${username}`
+    // Check if the text contains a URL
+    if (text.includes(filter)) {
+        const newText = text.replace(filter, `<span class='highlighted'>@${username}</span>`);
+        element.innerHTML = newText;
+        return element;
+    } else {
+        return element; // No URL found
+    }
+}
+
 function addMessage(username, message) {
     if (message == "")
         return 0
@@ -110,10 +136,12 @@ function addMessage(username, message) {
 
     var edlimiter = $("<span></span>").text(": ")
     var message_text = $("<span></span>").text(message)
+    var message_item = detectAndCreateLink(message_text.get(0))
+    var message_item = detectAndCreatePing(message_item)
 
     li.append(colored_name);
     li.append(edlimiter);
-    li.append(message_text);
+    li.append(message_item);
 
     $("#list").append(li);
     lastGrey = !lastGrey;
