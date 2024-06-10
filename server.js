@@ -37,21 +37,22 @@ var port = 8080
 var ip
 let first = false
 for (var a in ifaces) {
-    
+
     for (var b in ifaces[a]) {
         var addr = ifaces[a][b];
         if (addr.family === 'IPv4' && !addr.internal) {
-            if (!first){
+            if (!first) {
                 ip = addr.address
                 first = false
-                console.log(ip)
-                console.log(addr.address)
+                // console.log(ip)
+                // console.log(addr.address)
             }
 
             console.log("Network IP: " + addr.address);
         }
     }
 }
+
 server.listen(port);
 console.log(`server listening on http://${ip}:${port}`)
 io.listen(server);

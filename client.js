@@ -59,12 +59,12 @@ const stringToColour = (str) => {
 
 function connect(text) {
     // console.log(text);
-    text = text.split(" ");
-    if (text[0] != "connect" || text.length < 2) {
-        addMessage("ERROR", "To connect, type 'connect' followed by a username");
-        return;
-    }
-    username = text.slice(1).join(' ');
+    // text = text.split(" ");
+    // if (text[0] != "connect" || text.length < 2) {
+    //     addMessage("ERROR", "To connect, type your username");
+    //     return;
+    // }
+    username = text;
     console.log(text + "\t" + username);
     socket = io.connect({ query: "username=" + username });
     connected = true;
@@ -160,8 +160,8 @@ $(document).ready(function () {
             console.log("text: " + $("input[name=messageText]").val());
             console.log("done connecting");
             socket.emit('newMessage', {
-                'username': "Server", 'message': "User " + username +
-                    " has connected."
+                'username': "Server", 'message': "User \"" + username +
+                    "\" has connected."
             });
         } else {
             socket.emit('newMessage',
